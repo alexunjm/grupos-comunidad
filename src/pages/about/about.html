@@ -1,11 +1,25 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      About
+      Grupos
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-
+  <h1>
+    Grupos de Preparación</h1>
+  <ion-list>
+    <ng-container *ngFor="let group of list">
+      <ion-list-header>
+        {{ group.name }}
+      </ion-list-header>
+      <ion-item *ngFor="let person of group.persons">
+        <h2>{{ person.p }}</h2>
+        <p>
+          {{ person.tel ? ('tel:' + person.tel) : '' }} {{ person.tel && person.cel ? ' - ' : '' }} {{ person.cel ? ('cel:' + person.cel)
+          : '' }}</p>
+      </ion-item>
+    </ng-container>
+  </ion-list>
 </ion-content>
