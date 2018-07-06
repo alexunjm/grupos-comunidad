@@ -13,9 +13,11 @@ import { File } from '@ionic-native/file';
 @Injectable()
 export class DataProvider {
   url: string;
+  defaultDir: string;
 
   constructor(public http: HttpClient, private file: File) {
     this.url = GLOBAL.url.dataResource;
+    this.defaultDir = 'comunidad';
   }
 
   get(endpoint: string, params?: any, reqOpts?: any): Observable<ArrayBuffer>{
@@ -37,15 +39,41 @@ export class DataProvider {
   }
 
   save(fileName: string, data: any) {
-    var blob = new Blob(["Hello, world!"], { type: "text/plain;charset=utf-8" });
 
-    console.log(this.file.dataDirectory);
+    if(this.file.dataDirectory) {
 
-    this.file.writeFile(this.url + 'groups', fileName, blob, { replace: true }).then(() => {
-      alert("file created at: " + this.url + 'groups');
-    }).catch(() => {
-      alert("error creating file at :" + this.url + 'groups');
-    });
+      var blob = new Blob([data], { type: "application/json;charset=utf-8" });
+
+      this.file.checkDir(this.file.dataDirectory, this.defaultDir).then(
+        _ => {
+
+          this.file.writeFile(this.file.dataDirectory + this.defaultDir, fileName, blob, { replace: true }).then(() => {
+            console.log("file created at: " + this.file.dataDirectory);
+          }).catch(() => {
+            console.error("error creating file at :" + this.file.dataDirectory);
+          });
+        }
+      ).catch(
+        err => {
+          this.createDir();
+          this.save(fileName, data);
+        }
+      );
+    } else {
+      localStorage.setItem('data', JSON.stringify(data));
+    }
+
+  }
+
+  createDir() {
+    this.file.createDir(this.file.dataDirectory, this.defaultDir, true).then(
+      _ => console.log('Directory created', _)
+    ).catch(
+      err => {
+        console.log(err);
+
+      }
+    );
   }
 
 }

@@ -39,7 +39,13 @@ export class ListProvider extends DefaultProvider {
 
   saveGroups(data: any) {
 
-    this.dataProvider.save('groups', data);
+    /* this.dataProvider.save('groups', data); */
+    localStorage.setItem('groups', JSON.stringify(data));
+  }
+
+  getGroups() {
+    const data = localStorage.getItem('groups');
+    return data ? JSON.parse(data) : [];
   }
 
 }
