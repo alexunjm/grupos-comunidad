@@ -37,4 +37,9 @@ export class ListProvider extends DefaultProvider {
     return obs;
   }
 
+  saveGroups(data: any) {
+
+    this.dataProvider.save('groups', data);
+  }
+
 }

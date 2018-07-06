@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GLOBAL } from '../default/generic';
 import { Observable } from 'rxjs/Observable';
+import { File } from '@ionic-native/file';
 
 /*
   Generated class for the DataProvider provider.
@@ -13,7 +14,7 @@ import { Observable } from 'rxjs/Observable';
 export class DataProvider {
   url: string;
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, private file: File) {
     this.url = GLOBAL.url.dataResource;
   }
 
@@ -32,7 +33,19 @@ export class DataProvider {
       }
     }
 
-    return this.http.get(this.url + '/' + endpoint + '.json', reqOpts);
+    return this.http.get(this.url + endpoint + '.json', reqOpts);
+  }
+
+  save(fileName: string, data: any) {
+    var blob = new Blob(["Hello, world!"], { type: "text/plain;charset=utf-8" });
+
+    console.log(this.file.dataDirectory);
+
+    this.file.writeFile(this.url + 'groups', fileName, blob, { replace: true }).then(() => {
+      alert("file created at: " + this.url + 'groups');
+    }).catch(() => {
+      alert("error creating file at :" + this.url + 'groups');
+    });
   }
 
 }

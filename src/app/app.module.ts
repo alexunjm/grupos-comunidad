@@ -12,6 +12,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ListProvider, DataProvider } from '../providers/providers';
 import { HttpClientModule } from '@angular/common/http';
+import { File } from "@ionic-native/file";
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { HttpClientModule } from '@angular/common/http';
   providers: [
     StatusBar,
     SplashScreen,
+    File,
     DataProvider,
     ListProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

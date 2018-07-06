@@ -73,6 +73,33 @@ export const _arr = initArr => ({
       (acc, x, index, arr) => acc.concat(fn(x, index, arr)),
       []
     ),
+  times: (times, fn, thenFn = null) => {
+    let arr = initArr;
+    for (let i = 0; i < times; i++) {
+      arr = fn(_arr(arr), i);
+    }
+    return thenFn ? thenFn(arr) : arr;
+  },
+  randomNew: (range) => {
+    const len = initArr.length;
+    let rand = Math.floor(Math.random() * (range - len));
+    const sorted = _arr(initArr).sort();
+    while (sorted[rand] == rand) {
+      rand++;
+      if(rand > range) {
+        rand = 0;
+      }
+    }
+    return rand;
+  },
+  sort: () => {
+    const arr = _arr([]).times(initArr.length, (arr, i) => arr.push(null));
+    _arr(initArr).each(val => {
+      arr[val] = val;
+    });
+    return arr;
+
+  },
   sum: () => _arr(initArr).reduce((prev, curr) => prev + curr, 0),
   avg: () => _arr(initArr).sum() / initArr.length,
   contains: (elms, fn) =>

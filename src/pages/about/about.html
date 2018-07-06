@@ -7,8 +7,10 @@
 </ion-header>
 
 <ion-content padding>
-  <h1>
-    Grupos de Preparación</h1>
+  <h1>Grupos de Preparación</h1>
+  <span>Número de grupos </span>
+  <input type="number" [(ngModel)]="groups">
+  <button ion-button color="secondary" (click)="generateGroups()" >Generar</button>
   <ion-list>
     <ng-container *ngFor="let group of list">
       <ion-list-header>
